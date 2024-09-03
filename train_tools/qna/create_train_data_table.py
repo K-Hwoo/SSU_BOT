@@ -36,3 +36,14 @@ except Exception as e :
 finally :
     if db is not None :
         db.close()
+
+
+"""
+
+질문 / 답변 데이터셋을 MySQL에 올리기 전,
+TABLE을 생성하는 프로그랩입니다. (TABLE명 - question_answer_pairs)
+
+- MySQL에 ssu_bot 데이터베이스가 존재해야함
+- config/DatabaseConfig.py에 DB관련 정보 저장
+
+"""
