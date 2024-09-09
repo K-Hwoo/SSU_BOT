@@ -77,7 +77,7 @@ def to_client(conn, addr, params) :
         
         # 의도 파악
         intent_predict = intent.predict_class(query)
-        intent_name = intent.label[intent_predict]
+        intent_name = intent.labels[intent_predict]
         
         # 답변 검색
         f = FindAnswer(p, embedding_data, db)
