@@ -65,3 +65,16 @@ except Exception as e :
 finally :
     if db is not None :
         db.close()
+        
+        
+        
+"""
+
+질문 / 답변 데이터셋을 MySQL에 올리는 프로그랩입니다.
+먼저 테이블을 초기화한 후에 데이터 삽입
+
+TABLE명 -> question_answer_pairs
+           COLUMN명
+           id, /intent, query, answer, answer_image/
+
+"""
