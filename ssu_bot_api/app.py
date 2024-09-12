@@ -44,8 +44,8 @@ def query(bot_type) :
         elif bot_type == "KAKAO" :
             # 카카오톡 스킬 처리
             body = request.get_json()
-            utterance = body["userRequest"]["utterance"]
-            ret = get_answer_from_engine(bottype=bot_type, query=utterance)
+            query = body["action"]["params"]
+            ret = get_answer_from_engine(bottype=bot_type, query=query)
             
             skillTemplate = KakaoTemplate()
             return skillTemplate.send_response(ret)

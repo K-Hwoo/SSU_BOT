@@ -28,7 +28,7 @@ class KakaoTemplate :
         }
         
         # 텍스트가 이미지보다 먼저 출력됨
-        # 텍스트 답변이 있는 경우
+        # 텍스트 답변이 있는 경우sc
         if bot_resp["Answer"] is not None :
             responseBody["template"]["outputs"].append(
                 self.simpleTextComponent(bot_resp["Answer"])
