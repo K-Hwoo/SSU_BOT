@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, abort
 import socket
 import json
+from KakaoTemplate import KakaoTemplate
 
 # 챗봇 엔진 서버 접속 정보
 host = "127.0.0.1" # 챗봇 엔진 서버 IP 주소
@@ -41,7 +42,13 @@ def query(bot_type) :
             return jsonify(ret)
         
         elif bot_type == "KAKAO" :
-            pass
+            # 카카오톡 스킬 처리
+            body = request.get_json()
+            utterance = body["userRequest"]["utterance"]
+            ret = get_answer_from_engine(bottype=bot_type, query=utterance)
+            
+            skillTemplate = KakaoTemplate()
+            return skillTemplate.send_response(ret)
         
         elif bot_type == "NAVER" :
             pass
@@ -54,7 +61,7 @@ def query(bot_type) :
         
 
 if __name__ == "__main__" :
-    app.run()
+    app.run(host="0.0.0.0", port=5000)
     
     
     
