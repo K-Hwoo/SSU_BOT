@@ -45,24 +45,6 @@ def query(bot_type) :
         elif bot_type == "KAKAO" :
             # 카카오톡 스킬 처리
             body = request.get_json()
-            callbackUrl = body["userRequest"]["callbackUrl"]
-            
-            skillTemplate = KakaoTemplate()
-            
-            try : 
-                response = requests.get(
-                    callbackUrl,
-                    json = skillTemplate.send_callback_response()
-                )
-                
-                print(callbackUrl)
-                if response.status_code == 200 :
-                    print(f"Callback 호출 성공")
-                else :
-                    print(f"Callback 호출 실패 : {response.status_code}")
-                    
-            except Exception as error :
-                print(f"Callback 호출 중 에러 : {error}")
             
             # 배포용
             utterance = body["userRequest"]["utterance"]
@@ -74,6 +56,15 @@ def query(bot_type) :
             
             return skillTemplate.send_response(ret)
             
+        elif bot_type == "KAKAO_CB" :
+            body = request.get_json()
+            callbackUrl = body["userRequest"]["callbackUrl"]
+            print(callbackUrl)
+            
+            skillTemplate = KakaoTemplate()
+            
+            return skillTemplate.send_callback_response()
+     
         elif bot_type == "NAVER" :
             pass
         
