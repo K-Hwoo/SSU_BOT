@@ -40,15 +40,3 @@ class KakaoTemplate :
             )
     
         return responseBody
-    
-    def send_callback(self) : 
-        responseBody = {
-            "version" : self.version,
-            "useCallback" : true,
-            "context" : {},
-            "data" : {
-                "text" : "생각하고 있는 중이에요😘 기다려 주실래요?!"
-            }
-        }
-        
-        return responseBody

@@ -56,13 +56,6 @@ def query(bot_type) :
             skillTemplate = KakaoTemplate()
             return skillTemplate.send_response(ret)
         
-        # 카카오톡 챗봇 타임아웃 콜백
-        elif bot_type == "KAKAO_CB" :
-            body = request.get_json()
-            
-            skillTemplate = KakaoTemplate()
-            return skillTemplate.send_callback()
-        
         elif bot_type == "NAVER" :
             pass
         
