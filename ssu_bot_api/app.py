@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, abort
 import socket
 import json
+import requests
 from KakaoTemplate import KakaoTemplate
 
 # 챗봇 엔진 서버 접속 정보
@@ -45,16 +46,32 @@ def query(bot_type) :
             # 카카오톡 스킬 처리
             body = request.get_json()
             
-            # 배포용
-            # utterance = body["userRequest"]["utterance"]
-            # ret = get_answer_from_engine(bottype=bot_type, query=utterance)
-            
-            # 챗봇 스킬 테스트용
-            query = body["action"]["params"]["query"]
-            ret = get_answer_from_engine(bottype=bot_type, query=query)
-            
             skillTemplate = KakaoTemplate()
+            
+            try : 
+                response = requests.post(
+                    body["userRequest"]["callbackUrl"],
+                    skillResponse = skillTemplate.send_callback_response()
+                )
+                
+                if response.status_doce == 200 :
+                    print(f"Callback 호출 성공")
+                else :
+                    print(f"Callback 호출 실패 : {response.status_code}")
+                    
+            except Exception as error :
+                print(f"Callback 호출 중 에러 : {error}")
+            
+            # 배포용
+            utterance = body["userRequest"]["utterance"]
+            ret = get_answer_from_engine(bottype=bot_type, query=utterance)
+            
+            # - 챗봇 스킬 테스트용
+            # query = body["action"]["params"]["query"]
+            # ret = get_answer_from_engine(bottype=bot_type, query=query)
+            
             return skillTemplate.send_response(ret)
+            
         
         elif bot_type == "NAVER" :
             pass
@@ -64,7 +81,6 @@ def query(bot_type) :
             
     except Exception as ex :
         abort(500)
-        
 
 if __name__ == "__main__" :
     app.run(host="0.0.0.0", port=5000)
