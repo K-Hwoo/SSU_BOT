@@ -50,7 +50,7 @@ def query(bot_type) :
             skillTemplate = KakaoTemplate()
             
             try : 
-                response = requests.post(
+                response = requests.get(
                     callbackUrl,
                     json = skillTemplate.send_callback_response()
                 )
@@ -74,7 +74,6 @@ def query(bot_type) :
             
             return skillTemplate.send_response(ret)
             
-        
         elif bot_type == "NAVER" :
             pass
         
