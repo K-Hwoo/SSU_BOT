@@ -44,6 +44,12 @@ def query(bot_type) :
         elif bot_type == "KAKAO" :
             # 카카오톡 스킬 처리
             body = request.get_json()
+            
+            # 배포용
+            # utterance = body["userRequest"]["utterance"]
+            # ret = get_answer_from_engine(bottype=bot_type, query=utterance)
+            
+            # 챗봇 스킬 테스트용
             query = body["action"]["params"]["query"]
             ret = get_answer_from_engine(bottype=bot_type, query=query)
             
