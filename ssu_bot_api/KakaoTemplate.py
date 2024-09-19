@@ -22,8 +22,12 @@ class KakaoTemplate :
     def send_response(self, bot_resp) :
         responseBody = {
             "version" : self.version,
+            "useCallback" : true,
             "template" : {
                 "outputs" : []
+            },
+            "data" : {
+                "text" : "생각하고 있는 중이에요😘 기다려 주실래요?!"
             }
         }
         
