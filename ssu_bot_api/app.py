@@ -54,7 +54,7 @@ def query(bot_type) :
                     json = skillTemplate.send_callback_response()
                 )
                 
-                if response.status_doce == 200 :
+                if response.status_code == 200 :
                     print(f"Callback 호출 성공")
                 else :
                     print(f"Callback 호출 실패 : {response.status_code}")
