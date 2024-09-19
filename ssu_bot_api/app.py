@@ -45,15 +45,17 @@ def query(bot_type) :
         elif bot_type == "KAKAO" :
             # 카카오톡 스킬 처리
             body = request.get_json()
+            callbackUrl = body["userRequest"]["callbackUrl"]
             
             skillTemplate = KakaoTemplate()
             
             try : 
                 response = requests.post(
-                    body["userRequest"]["callbackUrl"],
+                    callbackUrl,
                     json = skillTemplate.send_callback_response()
                 )
                 
+                print(callbackUrl)
                 if response.status_code == 200 :
                     print(f"Callback 호출 성공")
                 else :
