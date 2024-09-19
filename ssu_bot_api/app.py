@@ -31,7 +31,15 @@ def get_answer_from_engine(bottype, query) :
     
     return ret_data
 
+def send_callback_response(callback_url, response_data) :
+    headers = {"Content-Type" : "application/json"}
+    response = requests.post(callback_url, headers=headers, json=response_data)
 
+    if response.status_code == 200:
+        return {"result": "SUCCESS"}
+    else:
+        return {"result": "FAIL", "error": response.text}
+    
 @app.route("/query/<bot_type>", methods=["POST"])
 def query(bot_type) :
     body = request.get_json()
@@ -45,25 +53,42 @@ def query(bot_type) :
         elif bot_type == "KAKAO" :
             # 카카오톡 스킬 처리
             body = request.get_json()
-            
-            # 배포용
-            utterance = body["userRequest"]["utterance"]
-            ret = get_answer_from_engine(bottype=bot_type, query=utterance)
+            skillTemplate = KakaoTemplate()
             
             # - 챗봇 스킬 테스트용
             # query = body["action"]["params"]["query"]
             # ret = get_answer_from_engine(bottype=bot_type, query=query)
             
-            return skillTemplate.send_response(ret)
-            
-        elif bot_type == "KAKAO_CB" :
-            body = request.get_json()
+            # 배포용
             callbackUrl = body["userRequest"]["callbackUrl"]
-            print(callbackUrl)
+            utterance = body["userRequest"]["utterance"]
             
-            skillTemplate = KakaoTemplate()
+            try:
+                response = requests.post(
+                    callbackUrl,
+                    json=skillTemplate.send_callback_response()
+                )
+                
+                if response.status_code == 200:
+                    print('Callback 호출 성공')
+                else:
+                    print(f'Callback 호출 실패: {response.status_code}')
             
-            return skillTemplate.send_callback_response()
+            except Exception as error:
+                print(f'Callback 호출 중 에러: {error}')       
+           
+            ret = get_answer_from_engine(bottype=bot_type, query=utterance)
+            
+            return jsonify(skillTemplate.send_response(ret))
+            
+        # elif bot_type == "KAKAO_CB" :
+        #     body = request.get_json()
+        #     callbackUrl = body["userRequest"]["callbackUrl"]
+        #     print(callbackUrl)
+            
+        #     skillTemplate = KakaoTemplate()
+            
+        #     return skillTemplate.send_callback_response()
      
         elif bot_type == "NAVER" :
             pass
