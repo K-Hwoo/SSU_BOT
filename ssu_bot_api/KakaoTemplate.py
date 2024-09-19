@@ -22,17 +22,13 @@ class KakaoTemplate :
     def send_response(self, bot_resp) :
         responseBody = {
             "version" : self.version,
-            "useCallback" : true,
             "template" : {
                 "outputs" : []
             },
-            "data" : {
-                "text" : "생각하고 있는 중이에요😘 기다려 주실래요?!"
-            }
         }
         
         # 텍스트가 이미지보다 먼저 출력됨
-        # 텍스트 답변이 있는 경우sc
+        # 텍스트 답변이 있는 경우
         if bot_resp["Answer"] is not None :
             responseBody["template"]["outputs"].append(
                 self.simpleTextComponent(bot_resp["Answer"])
@@ -43,4 +39,16 @@ class KakaoTemplate :
                 self.simpleImageComponent(bot_resp["AnswerImageUrl"], "[대체 텍스트는 준비 중입니다.]")
             )
     
+        return responseBody
+    
+    def send_callback(self) : 
+        responseBody = {
+            "version" : self.version,
+            "useCallback" : true,
+            "context" : {},
+            "data" : {
+                "text" : "생각하고 있는 중이에요😘 기다려 주실래요?!"
+            }
+        }
+        
         return responseBody
