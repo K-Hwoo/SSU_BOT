@@ -64,22 +64,22 @@ def query(bot_type) :
             utterance = body["userRequest"]["utterance"]
             
             try:
+                ret = get_answer_from_engine(bottype=bot_type, query=utterance)
+                
                 response = requests.post(
                     callbackUrl,
-                    json=skillTemplate.send_callback_response()
+                    json=skillTemplate.send_response(ret)
                 )
                 
                 if response.status_code == 200:
                     print('Callback 호출 성공')
                 else:
-                    print(f'Callback 호출 실패: {response.status_code}')
+                    print(f'Callback 호출 실패: {response.status_code}, 응답 내용 : {response.text}')
             
             except Exception as error:
                 print(f'Callback 호출 중 에러: {error}')       
            
-            ret = get_answer_from_engine(bottype=bot_type, query=utterance)
-            
-            return jsonify(skillTemplate.send_response(ret))
+            return skillTemplate.send_callback_response()
             
         # elif bot_type == "KAKAO_CB" :
         #     body = request.get_json()
