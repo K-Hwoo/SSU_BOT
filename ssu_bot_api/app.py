@@ -51,7 +51,7 @@ def query(bot_type) :
             try : 
                 response = requests.post(
                     body["userRequest"]["callbackUrl"],
-                    skillResponse = skillTemplate.send_callback_response()
+                    json = skillTemplate.send_callback_response()
                 )
                 
                 if response.status_doce == 200 :
