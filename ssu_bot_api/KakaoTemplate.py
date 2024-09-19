@@ -22,7 +22,6 @@ class KakaoTemplate :
     def send_response(self, bot_resp) :
         responseBody = {
             "version" : self.version,
-            "useCallback" : true,
             "template" : {
                 "outputs" : []
             },
@@ -40,4 +39,15 @@ class KakaoTemplate :
                 self.simpleImageComponent(bot_resp["AnswerImageUrl"], "[대체 텍스트는 준비 중입니다.]")
             )
     
+        return responseBody
+    
+    def send_callback_response(self) :
+        responseBody = {
+            "version" : self.version,
+            "useCallback" : True,
+            "data" : {
+                "text" : "생각하고 있는 중이에요😘 \n조금만 기다려 주실래요?!"
+            }
+        }
+        
         return responseBody
