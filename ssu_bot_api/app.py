@@ -55,10 +55,6 @@ def query(bot_type) :
             body = request.get_json()
             skillTemplate = KakaoTemplate()
             
-            # - 챗봇 스킬 테스트용
-            # query = body["action"]["params"]["query"]
-            # ret = get_answer_from_engine(bottype=bot_type, query=query)
-            
             # 배포용
             callbackUrl = body["userRequest"]["callbackUrl"]
             utterance = body["userRequest"]["utterance"]
@@ -68,7 +64,7 @@ def query(bot_type) :
                 
                 response = requests.post(
                     callbackUrl,
-                    json=skillTemplate.send_response(ret)
+                    json=jsonify(skillTemplate.send_response(ret))
                 )
                 
                 if response.status_code == 200:
