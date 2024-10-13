@@ -3,21 +3,42 @@ import numpy as np
 from numpy import dot
 from numpy.linalg import norm
 from sentence_transformers import SentenceTransformer, util
+import random
 
 class FindAnswer :
     def __init__(self, preprocess, embedding_data, db) :
-        # 텍스트 전처리기
-        self.p = preprocess
-        # 사전 훈련된 SBERT
-        self.model = SentenceTransformer("snunlp/KR-SBERT-V40K-klueNLI-augSTS")
-        # 임베딩 정보 데이터
-        self.embedding_data = embedding_data
-        # 연결할 데이터베이스
-        self.db = db
+        self.p = preprocess # 텍스트 전처리기
+        self.model = SentenceTransformer("snunlp/KR-SBERT-V40K-klueNLI-augSTS") # 사전 훈련된 SBERT
+        self.embedding_data = embedding_data # 임베딩 정보 데이터
+        self.db = db # 연결할 데이터베이스
+        
+        # 인사말 리스트
+        self.hello = ["안녕하세요 SSU_BOT 입니다. 만나서 반갑습니다!",
+                      "안녕 나는 SSU_BOT, Version.1이어서 간단한 답변만 가능해",
+                      "안녕하세요 학교 정보를 알려주는 챗봇, SSU_BOT 입니다."]
         
     def search(self, query, intent) :
-        pos = self.p.pos(query)
+        # return 해야할 정보
+        selected_qes = None
+        query_intent = None
+        answer = None
+        imageURL = None
+        score = None
         
+        # 의도가 "인사"일 경우 우선 처리
+        if intent == "인사" :
+            answer = self.hello[random.randint(0, 2)]
+            imageURL = "http://3.36.131.8:5000/images/hello.jpg"
+            score = 1.
+           
+            return selected_qes, query_intent, score, answer, imageURL
+        
+        
+        # 데이터베이스 상의 질문과의 유사도 검사 후 
+        # 답변을 검색
+        
+        # 입력 받은 문장을 전처리 -> 형태소만 추출해서 공백없이 하나로 합치기
+        pos = self.p.pos(query)
         keywords = self.p.get_keywords(pos, without_tag=True)
         query_pre = ""
         for k in keywords :
@@ -39,6 +60,7 @@ class FindAnswer :
         query_intent = selected["intent"]
         answer = selected["answer"]
         imageURL = selected["answer_image"]
+        
         
         if query_intent == intent : # 질문 의도 분석한 결과와 실제 의도가 맞을 때
             # 데이터베이스에서 선택한 질문 인코딩

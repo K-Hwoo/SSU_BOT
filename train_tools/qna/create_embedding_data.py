@@ -11,7 +11,7 @@ from sentence_transformers import SentenceTransformer
 
 # df = pd.read_excel(train_file)
 # df["embedding_vector"] = df["질문(Query)"].progress_map(lambda x : model.encode(x))
-# df.to_excel("train_tools/qna/train_data_embedding.xlsx", index=False)
+# # df.to_excel("train_tools/qna/train_data_embedding.xlsx", index=False)
 
 # print(df["embedding_vector"].dtype)
 # embedding_data = np.array(df["embedding_vector"].to_list())

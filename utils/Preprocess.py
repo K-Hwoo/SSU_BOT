@@ -1,18 +1,22 @@
-# 한국어 문장 전처리기를 구현합니다.
+# konlpy 라이브러리의 Komoran을 이용하여 형태소 단위로 토크나이징을 할 수 있는 
+# 한국어 문장 전처리기를 구현
 
 from konlpy.tag import Komoran
 import pickle
 
 class Preprocess :
     def __init__(self, userdic=None, word2index_dic="") : # userdic -> 사용자 정의 사전(ex. 신조어, 구어체 등)
-        # 입력된 문장을 단어 인덱스 사전을 이용해 단어 시퀀스 벡터로 변환하는 기능을 추가
+        # ====================================================================================
+        # 입력된 문장을 '단어 인덱스 사전'을 이용해 단어 시퀀스 벡터로 변환하는 기능을 추가
         # train_tools/dict/create_dict.py 작업을 수행 후 chatbot_dict.bin 파일이 생성되어야 함
         if (word2index_dic != "") :
             f = open(word2index_dic, "rb")
             self.word_index = pickle.load(f)
             f.close()
+            
         else :
             self.word_index = None
+        # ====================================================================================
         
         # komoran의 형태소 분석기를 초기화 한다.
         self.komoran = Komoran(userdic=userdic)
@@ -48,7 +52,7 @@ class Preprocess :
         
         return word_list                
     
-    
+    # ====================================================================================
     # 키워드를 단어 인덱스 시퀀스로 변환
     def get_wordidx_sequence(self, keywords) :
         if self.word_index is None :
@@ -62,3 +66,4 @@ class Preprocess :
                 w2i.append(self.word_index["OOV"])
                 
         return w2i
+    # ====================================================================================

@@ -8,7 +8,7 @@ f = open("train_tools/dict/chatbot_dict.bin", "rb")
 word_index = pickle.load(f)
 f.close()
 
-sentence = "내일 학교 가면 뭐 먹냐... 누가 점심 메뉴 추천좀 해줘."
+sentence = "전정공 학과 사무실 전화번호 알려줘"
 
 p = Preprocess(userdic="utils/user_dic.tsv")
 

@@ -1,12 +1,12 @@
 """
-제작 하는 chatbot engine에서 의도 분류 및 개체명 인식 모델의 학습을 하려면
-"단어 사전(어휘 사전)을 구축해야 한다."
+토크나이징 후 임베딩을 위한 단어 사전 구축
 """
     
 import sys, os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../utils'))
 from Preprocess import Preprocess
+
 from tensorflow.keras import preprocessing
 import pickle
 import pandas as pd
@@ -17,7 +17,7 @@ def read_corpus_data(filename) : # txt 데이터 가져오기
         data = data[1:]
         return data
         
-#
+# From CSV
 movie_review_data = pd.read_csv("../../datasets/영화리뷰데이터.csv")
 purpose_data = pd.read_csv("../../datasets용도별목적대화데이터.csv")
 topic_data = pd.read_csv("../../datasets주제별일상대화데이터.csv")
@@ -38,6 +38,7 @@ corpus_data_from_csv = text1 + text2 + text3 + text4
 print("말뭉치 데이터(CSV) 불러오기 및 전처리 완료")
 #
 
+# From Text
 corpus_data_from_txt = read_corpus_data("../../datasetscorpus.txt")
 
 # 말뭉치 데이터에서 키워드만 추출해서 사전 리스트 생성
