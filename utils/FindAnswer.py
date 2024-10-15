@@ -28,7 +28,7 @@ class FindAnswer :
         # 의도가 "인사"일 경우 우선 처리
         if intent == "인사" :
             answer = self.hello[random.randint(0, 2)]
-            imageURL = "http://3.36.131.8:5000/images/hello.jpg"
+            imageURL = "http://3.36.92.165:5000/images/hello.jpg"
             score = 1.
            
             return selected_qes, query_intent, score, answer, imageURL

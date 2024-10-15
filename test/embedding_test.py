@@ -7,7 +7,7 @@ model = SentenceTransformer("snunlp/KR-SBERT-V40K-klueNLI-augSTS")
 embedding_data = torch.load("train_tools/qna/embedding_data.pt", weights_only=True)
 df = pd.read_excel("train_tools/qna/answer_data.xlsx")
 
-sentence = "쿱스켓 어디있어?"
+sentence = "컴학 사무실 전화번호 알려줘"
 print(f"질문 문장 : {sentence}")
 sentence = sentence.replace(" ", "")
 print(f"공백 제거 문장 : {sentence}")
