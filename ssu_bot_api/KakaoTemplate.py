@@ -34,7 +34,7 @@ class KakaoTemplate :
                 self.simpleTextComponent(bot_resp["Answer"])
             )
             
-        if bot_resp["AnswerImageUrl"] is not "없음" :
+        if bot_resp["AnswerImageUrl"] != "없음" :
             responseBody["template"]["outputs"].append(
                 self.simpleImageComponent(bot_resp["AnswerImageUrl"], "[대체 텍스트는 준비 중입니다.]")
             )
