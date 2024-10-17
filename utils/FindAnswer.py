@@ -17,6 +17,9 @@ class FindAnswer :
                       "안녕 나는 SSU_BOT, Version.1이어서 간단한 답변만 가능해",
                       "안녕하세요 학교 정보를 알려주는 챗봇, SSU_BOT 입니다."]
         
+        # 식사 메뉴 추천 문구 리스트
+        self.recommend = []
+        
     def search(self, query, intent) :
         # return 해야할 정보
         selected_qes = None
@@ -26,6 +29,7 @@ class FindAnswer :
         score = None
         
         # 의도가 "인사"일 경우 우선 처리
+        # 의도 "인사"는 테스트용 겸 의도 분류 모델의 목적을 보여주기 위해 설계 하였음
         if intent == "인사" :
             answer = self.hello[random.randint(0, 2)]
             imageURL = "http://15.164.249.147:5000/images/hello.jpg"
@@ -34,8 +38,7 @@ class FindAnswer :
             return selected_qes, query_intent, score, answer, imageURL
         
         
-        # 데이터베이스 상의 질문과의 유사도 검사 후 
-        # 답변을 검색
+        # 데이터베이스 상의 질문과의 유사도 검사 후, 답변을 검색
         
         # 입력 받은 문장을 전처리 -> 형태소만 추출해서 공백없이 하나로 합치기
         pos = self.p.pos(query)
@@ -61,12 +64,24 @@ class FindAnswer :
         answer = selected["answer"]
         imageURL = selected["answer_image"]
         
-        
         if query_intent == intent : # 질문 의도 분석한 결과와 실제 의도가 맞을 때
             # 데이터베이스에서 선택한 질문 인코딩
             selected_qes_encode = self.model.encode(selected_qes)
+        
             # 유사도 점수 측정
             score = dot(query_tensor, selected_qes_encode) / (norm(query_tensor) * norm(selected_qes_encode))
+            
+            # =============
+            # 입력한 문장 의도 예측이 "메뉴"인 경우
+            if intent == "메뉴" :
+                if answer == "random" :
+                    pass
+                    # 메뉴 추천 문구 리스트에서 랜덤으로 출력
+                    return 0
+                else : 
+                    pass
+                    # 답변으로 가져온 웹주소에서 식단 크롤링
+                    return 0
             
         else : # 질문 의도 분석한 결과와 실제 의도가 다를 때
             score = -1
