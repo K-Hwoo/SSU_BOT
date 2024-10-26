@@ -1,5 +1,5 @@
-# konlpy 라이브러리의 Komoran을 이용하여 형태소 단위로 토크나이징을 할 수 있는 
-# 한국어 문장 전처리기를 구현
+# konlpy 라이브러리의 Komoran을 이용하여 형태소 단위로 
+# 토크나이징을 할 수 있는 한국어 문장 전처리기를 구현
 
 from konlpy.tag import Komoran
 import pickle
@@ -25,11 +25,11 @@ class Preprocess :
         self.exclusion_tags = [
             # 각 tag가 의미하는 품사는 아래 웹페이지에서 확인 할 수 있다.
             # https://docs.komoran.kr/firststep/postypes.html
-            'JKS', 'JKC', 'JKG', 'JKO', 'JKB', 'JKV', 'JKQ',
-            'JX', 'JC',
-            'SF', 'SP', 'SS', 'SE', 'SO',
-            'EP', 'EF', 'EC', 'ETN', 'ETM',
-            'XSN', 'XSV', 'XSA'
+            'JKS', 'JKC', 'JKG', 'JKO', 'JKB', 'JKV', 'JKQ',    # 관계언 (격조사)
+            'JX', 'JC',                                         # 관계언 (보조사, 접속조사)
+            'SF', 'SP', 'SS', 'SE', 'SO',                       # 기호
+            'EP', 'EF', 'EC', 'ETN', 'ETM',                     # 어미
+            'XSN', 'XSV', 'XSA'                                 # 접미사
         ]
         
     '''
@@ -53,7 +53,7 @@ class Preprocess :
         return word_list                
     
     # ====================================================================================
-    # 키워드를 단어 인덱스 시퀀스로 변환
+    # 키워드를 단어 인덱스 시퀀스로 변환 (정수 인코딩)
     def get_wordidx_sequence(self, keywords) :
         if self.word_index is None :
             return []

@@ -9,16 +9,16 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '../../utils'))
 from Preprocess import Preprocess
 
 
-# Load Data
+# 학습 데이터셋 불러오기
 data = pd.read_csv("models/intent/train_data.csv")
 text = data['text'].tolist()
 label = data['label'].tolist()
 
-# Load preprocessor
+# 전처리기 불러오기
 p = Preprocess(word2index_dic='train_tools/dict/chatbot_dict.bin',
                userdic='utils/user_dic.tsv')
 
-# Data preprocess
+# 문장 데이터들 전처리
 sequences = []
 for sentence in text:
     pos = p.pos(sentence)
@@ -26,7 +26,7 @@ for sentence in text:
     seq = p.get_wordidx_sequence(keywords)
     sequences.append(seq)
 
-# set padding length & pad to sequences
+# 시퀀스 벡터 길이 맞추기
 sys.path.append(os.path.join(os.path.dirname(__file__), '../../config'))
 from GlobalParams import MAX_SEQ_LEN
 padded_seqs = preprocessing.sequence.pad_sequences(sequences, maxlen=MAX_SEQ_LEN, padding='post')
@@ -35,7 +35,7 @@ padded_seqs = preprocessing.sequence.pad_sequences(sequences, maxlen=MAX_SEQ_LEN
 ds = tf.data.Dataset.from_tensor_slices((padded_seqs, label))
 ds = ds.shuffle(len(text))
 
-# set train & validation & test size
+# 데이터셋 분할
 train_size = int(len(padded_seqs) * 0.7)
 val_size = int(len(padded_seqs) * 0.2)
 test_size = int(len(padded_seqs) * 0.1)
@@ -44,13 +44,13 @@ train_ds = ds.take(train_size).batch(100)
 val_ds = ds.take(train_size).take(val_size).batch(100)
 test_ds = ds.take(train_size + val_size).take(test_size).batch(100)
 
-# Hyperparameter
+# 하이퍼 파라미터 설정
 dropout_prob = 0.5
 EMB_SIZE = 128
 EPOCH = 3
 VOCAB_SIZE = len(p.word_index) + 1
 
-# CNN model definition
+# CNN 모델 구성
 input_layer = Input(shape=(MAX_SEQ_LEN, ))
 embedding_layer = Embedding(VOCAB_SIZE, EMB_SIZE, input_length=MAX_SEQ_LEN)(input_layer)
 dropout_emb = Dropout(rate=dropout_prob)(embedding_layer)
@@ -85,6 +85,7 @@ predictions = Dense(5, activation=tf.nn.softmax)(logits)
 
 # CNN model create
 model = Model(inputs=input_layer, outputs=predictions)
+
 model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
@@ -98,4 +99,6 @@ print("Accuracy: %f" % (accuracy * 100))
 print("loss : %f" % (loss))
 
 # save model
-model.save('intent_model.h5')
+model.save('models/intent/intent_model.h5')
+
+model.summary()

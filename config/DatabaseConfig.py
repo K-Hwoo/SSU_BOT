@@ -1,3 +1,5 @@
+# 데이터베이스 서버 정보
+
 DB_HOST = "127.0.0.1"
 DB_USER = "chatbot"
 DB_PASSWORD = "chatbot"

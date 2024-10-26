@@ -17,7 +17,7 @@ class FindAnswer :
                       "안녕 나는 SSU_BOT, Version.1이어서 간단한 답변만 가능해",
                       "안녕하세요 학교 정보를 알려주는 챗봇, SSU_BOT 입니다."]
         
-        # 식사 메뉴 추천 문구 리스트
+        # 메뉴 추천 문구 리스트
         self.recommend = []
         
     def search(self, query, intent) :
