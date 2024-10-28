@@ -100,5 +100,3 @@ print("loss : %f" % (loss))
 
 # save model
 model.save('models/intent/intent_model.h5')
-
-model.summary()
