@@ -84,7 +84,13 @@ def to_client(conn, addr, params) :
         selected_qes, query_intent, score, answer, imageURL = f.search(query, intent_name) 
         
         if score < 0.65 :
-            answer = "죄송합니다. 저도 잘 모르겠어요 조금 더 공부할게요 ( _ _ )"
+            answer = "적절한 질문 또는 좀 더 구체적으로 질문을 주세요.\
+가이드라인을 알려 드릴게요!\
+1. 번호 안내 : 숭실대 번호가 뭐야?\
+2. 장소 안내 : 복사기 위치 알려줄래?\
+3. 학사일정 안내 : 졸업식 일정을 알려줘\
+4. 식사 : 오늘 점심 메뉴 추천좀…"
+
             imageURL = "없음"
             Logger.error(f"{query}, {query_intent}, {selected_qes}, {intent_name}, {score}")
             
