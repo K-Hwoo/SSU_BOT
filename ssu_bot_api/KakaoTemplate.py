@@ -38,12 +38,5 @@ class KakaoTemplate :
             responseBody["template"]["outputs"].append(
                 self.simpleTextComponent(bot_resp["Answer"])
             )
-            responseBody["template"]["outputs"].append(
-                self.simpleTextComponent(
-                    "★ 숭실대학교 관련 다른 정보가 궁금하다면? ★ \
-                     ex) 전정공 번호 뭐야? / 교직팀 위치 알려줘 / \
-                     수강신청 날짜 언제야? / 오늘 점심 메뉴 추천해줘 \
-                     등으로 질문해 보세요.")
-            )
             
         return responseBody

@@ -6,19 +6,19 @@ tqdm.pandas()
 import torch
 from sentence_transformers import SentenceTransformer
 
-"""
-train_file = "train_tools/qna/answer_data.xlsx"
-model = SentenceTransformer("snunlp/KR-SBERT-V40K-klueNLI-augSTS")
 
-df = pd.read_excel(train_file)
-df["embedding_vector"] = df["질문(Query)"].progress_map(lambda x : model.encode(x))
-# # df.to_excel("train_tools/qna/train_data_embedding.xlsx", index=False)
+# train_file = "train_tools/qna/answer_data.xlsx"
+# model = SentenceTransformer("snunlp/KR-SBERT-V40K-klueNLI-augSTS")
 
-print(df["embedding_vector"].dtype)
-embedding_data = np.array(df["embedding_vector"].to_list())
-embedding_data = torch.tensor(embedding_data)
-torch.save(embedding_data, "embedding_data.pt")
-"""
+# df = pd.read_excel(train_file)
+# df["embedding_vector"] = df["질문(Query)"].progress_map(lambda x : model.encode(x))
+# # # df.to_excel("train_tools/qna/train_data_embedding.xlsx", index=False)
+
+# print(df["embedding_vector"].dtype)
+# embedding_data = np.array(df["embedding_vector"].to_list())
+# embedding_data = torch.tensor(embedding_data)
+# torch.save(embedding_data, "embedding_data.pt")
+
 
 class create_embedding_data :
     def __init__(self, preprocess, df) :

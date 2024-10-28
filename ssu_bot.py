@@ -83,7 +83,7 @@ def to_client(conn, addr, params) :
         f = FindAnswer(p, embedding_data, db)
         selected_qes, query_intent, score, answer, imageURL = f.search(query, intent_name) 
         
-        if score < 0.625 :
+        if score < 0.65 :
             answer = "죄송합니다. 저도 잘 모르겠어요 조금 더 공부할게요 ( _ _ )"
             imageURL = "없음"
             Logger.error(f"{query}, {query_intent}, {selected_qes}, {intent_name}, {score}")
@@ -92,7 +92,7 @@ def to_client(conn, addr, params) :
             "Query" : query,
             "Answer" : answer,
             "AnswerImageUrl" : imageURL,
-            "Intent" : intent_name
+            "Intent" : intent_name,
         }
         message = json.dumps(send_json_data_str)
         conn.send(message.encode())

@@ -18,14 +18,16 @@ class FindAnswer :
                       "안녕하세요 학교 정보를 알려주는 챗봇, SSU_BOT 입니다."]
         
         # 메뉴 추천 문구 리스트
-        self.recommend = []
+        self.recommend = ["오늘 식사는 지지고 어떠세요!",
+                          "오늘 식사는 도담식당에서 하는걸로...",
+                          "오늘 식사는 연래춘에서 짜장면을 먹어봅시다~"]
         
     def search(self, query, intent) :
         # return 해야할 정보
         selected_qes = None
         query_intent = None
         answer = None
-        imageURL = None
+        imageURL = "없음"
         score = None
         
         # 의도가 "인사"일 경우 우선 처리
@@ -75,13 +77,16 @@ class FindAnswer :
             # 입력한 문장 의도 예측이 "메뉴"인 경우
             if intent == "메뉴" :
                 if answer == "random" :
-                    pass
-                    # 메뉴 추천 문구 리스트에서 랜덤으로 출력
-                    return 0
+                    answer = self.recommend[random.randint(0, 2)]
+                    score = 1.
+           
+                    return selected_qes, query_intent, score, answer, imageURL
                 else : 
-                    pass
+                    answer = "식단표 정보는 준비 중입니다 죄송합니다 (_ _)"
+                    score = 1.
                     # 답변으로 가져온 웹주소에서 식단 크롤링
-                    return 0
+                    # selenium 동적 크롤링 해야해서 일단 보류
+                    return selected_qes, query_intent, score, answer, imageURL
             
         else : # 질문 의도 분석한 결과와 실제 의도가 다를 때
             score = -1
